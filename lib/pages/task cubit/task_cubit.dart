@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/pages/task%20cubit/task_states.dart';
 import 'package:todo/services/local_database.dart';
+import 'package:todo/services/notification_helper.dart';
 
 import '../../models/task.dart';
 
@@ -9,6 +10,7 @@ class TaskCubit extends Cubit<TaskStates> {
   TaskCubit() : super(TaskInitialState());
 
   static TaskCubit get(context) => BlocProvider.of<TaskCubit>(context);
+  final NotificationHelper _notificationHelper = NotificationHelper();
 
   List<Task> tasks = [];
   List<Task> todo = [];
@@ -37,7 +39,7 @@ class TaskCubit extends Cubit<TaskStates> {
     todo.addAll(tasks.where((task) => task.completed == 0));
     emit(LoadingAllTasksFromDatabase());
     for(Task task in tasks){
-      print('${task.title} ${task.completed} ${task.favourite} ${task.date} ' );
+      debugPrint('${task.title} ${task.completed} ${task.favourite} ${task.date} ' );
     }
   }
 
@@ -50,6 +52,8 @@ class TaskCubit extends Cubit<TaskStates> {
   addTaskToDatabase(Task task) async {
     await LocalDatabase.insertRaw(task);
     emit(NewTaskAddedState());
+    _notificationHelper.scheduledNotification('task alarm!', task.title!,task);
+
     await getTasksFromDateBase();
   }
 
@@ -70,8 +74,9 @@ class TaskCubit extends Cubit<TaskStates> {
     bool? start,
   }) async {
     TimeOfDay? timeOfDay = await showTimePicker(
-        context: context, initialTime: TimeOfDay(hour: 9, minute: 0));
-    String formatted = await timeOfDay!.format(context);
+        context: context, initialTime: const TimeOfDay(hour: 9, minute: 0));
+    // ignore: use_build_context_synchronously
+    String formatted = timeOfDay!.format(context);
 
     if (start == true) {
       startTime = formatted.toString();
@@ -84,13 +89,13 @@ class TaskCubit extends Cubit<TaskStates> {
   getIconButton(BuildContext context) => IconButton(
         color: Colors.grey[500],
         onPressed: () async {
-          DateTime? _pickedDate = await showDatePicker(
+          DateTime? pickedDate = await showDatePicker(
               context: context,
               initialDate: DateTime.now(),
               firstDate: DateTime(2018),
               lastDate: DateTime(2025));
-          if (_pickedDate != null) {
-            date = _pickedDate;
+          if (pickedDate != null) {
+            date = pickedDate;
           }
           emit(SelectingDateState());
         },
@@ -164,7 +169,7 @@ class TaskCubit extends Cubit<TaskStates> {
             width: 25,
           ),
           Text(task.title!),
-          Spacer(),
+          const Spacer(),
           getPopUpMenuButton(task),
         ],
       ),

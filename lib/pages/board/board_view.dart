@@ -21,7 +21,7 @@ class BoardView extends StatelessWidget {
             TaskCubit.get(context).getTasksFromDateBase();
           }
         }, builder: (context, state) {
-          var _taskCubit = TaskCubit.get(context);
+          var taskCubit = TaskCubit.get(context);
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
@@ -77,24 +77,24 @@ class BoardView extends StatelessWidget {
               children: [
                 ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => _taskCubit.getTask(context, _taskCubit.tasks[index]),
-                    itemCount: _taskCubit.tasks.length),
+                    itemBuilder: (context, index) => taskCubit.getTask(context, taskCubit.tasks[index]),
+                    itemCount: taskCubit.tasks.length),
                 ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => _taskCubit.getTask(context, _taskCubit.completed[index]),
-                    itemCount: _taskCubit.completed.length),
+                    itemBuilder: (context, index) => taskCubit.getTask(context, taskCubit.completed[index]),
+                    itemCount: taskCubit.completed.length),
                 ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => _taskCubit.getTask(context, _taskCubit.todo[index]),
-                    itemCount: _taskCubit.todo.length),
+                    itemBuilder: (context, index) => taskCubit.getTask(context, taskCubit.todo[index]),
+                    itemCount: taskCubit.todo.length),
                 ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => _taskCubit.getTask(context, _taskCubit.tasks[index]),
-                    itemCount: _taskCubit.favourite.length),
+                    itemBuilder: (context, index) => taskCubit.getTask(context, taskCubit.tasks[index]),
+                    itemCount: taskCubit.favourite.length),
               ],
             ),
             bottomSheet: Container(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               color: Colors.white,
               child: CustomMaterailButton(
                 borderRadious: 15,
