@@ -74,8 +74,7 @@ class NotificationHelper {
           int.parse(task.date!.split(' ')[0].split('-')[2],),
           int.parse(task.start!.split(' ')[0].split(':')[0]),
           int.parse(task.start!.split(' ')[0].split(':')[1]),
-          0
-        ),
+        ).subtract (  Duration(seconds: task.reminder!)),
         const NotificationDetails(
             android: AndroidNotificationDetails(
                 'your channel id', 'your channel name',
