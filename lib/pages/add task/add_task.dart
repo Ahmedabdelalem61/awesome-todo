@@ -11,36 +11,6 @@ import '../task cubit/task_cubit.dart';
 
 class AddTaskPage extends StatelessWidget {
   
-
-  /*
-  [
-                MyInputField(
-                    textEditingController: _titleController,
-                    title: 'Title',
-                    hint: 'Enter title name'),
-                MyInputField(
-                  title: 'Date',
-                  hint: DateFormat.yMEd().format(_taskCubit.date),
-                  widget: _getIconButton(context, _taskCubit)
-                ),
-                MyInputField(
-                  title: 'Start Time',
-                  hint: _taskCubit.startTime,
-                  widget: _getTimePicker(true, context, _taskCubit)
-                ),
-                MyInputField(
-                  title: 'End Time',
-                  hint: _taskCubit.endTime,
-                  widget: _getTimePicker(false, context, _taskCubit)
-                ),
-                MyInputField(
-                  title: 'Reminder',
-                  hint: _taskCubit.repeatingType,
-                  widget: _getDrodDownMenue(_taskCubit)
-                ),
-              ]
-  */
-
   final TextEditingController _titleController = TextEditingController();
 
   AddTaskPage({Key? key}) : super(key: key);
@@ -50,7 +20,7 @@ class AddTaskPage extends StatelessWidget {
     return BlocConsumer<TaskCubit, TaskStates>(
       listener: (context, state) {},
       builder: (context, state) {
-        var _taskCubit = TaskCubit.get(context);
+        var taskCubit = TaskCubit.get(context);
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -70,36 +40,38 @@ class AddTaskPage extends StatelessWidget {
             ),
             backgroundColor: Colors.white,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MyInputField(
-                    textEditingController: _titleController,
-                    title: 'Title',
-                    hint: 'Enter title name'),
-                    MyInputField(
-                  title: 'Date',
-                  hint: DateFormat.yMEd().format(_taskCubit.date),
-                  widget: _taskCubit.getIconButton(context)
-                ),
-                MyInputField(
-                  title: 'Start Time',
-                  hint: _taskCubit.startTime,
-                  widget: _taskCubit.getTimePicker(true, context)
-                ),
-                MyInputField(
-                  title: 'End Time',
-                  hint: _taskCubit.endTime,
-                  widget: _taskCubit.getTimePicker(false, context)
-                ),
-                MyInputField(
-                  title: 'Reminder',
-                  hint: _taskCubit.repeatingType,
-                  widget: _taskCubit.getDrodDownMenue()
-                ),
-              ],
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  MyInputField(
+                      textEditingController: _titleController,
+                      title: 'Title',
+                      hint: 'Enter title name'),
+                      MyInputField(
+                    title: 'Date',
+                    hint: DateFormat.yMEd().format(taskCubit.date),
+                    widget: taskCubit.getIconButton(context)
+                  ),
+                  MyInputField(
+                    title: 'Start Time',
+                    hint: taskCubit.startTime,
+                    widget: taskCubit.getTimePicker(true, context)
+                  ),
+                  MyInputField(
+                    title: 'End Time',
+                    hint: taskCubit.endTime,
+                    widget: taskCubit.getTimePicker(false, context)
+                  ),
+                  MyInputField(
+                    title: 'Reminder',
+                    hint: taskCubit.repeatingType,
+                    widget: taskCubit.getDrodDownMenue()
+                  ),
+                ],
+              ),
             ),
           ),
           backgroundColor: Colors.white,
@@ -111,16 +83,15 @@ class AddTaskPage extends StatelessWidget {
               callback: () {
                 //todo add to datebase after validation
                 if (_titleController.text.isNotEmpty &&
-                    _taskCubit.date != null &&
-                    _taskCubit.startTime.isNotEmpty &&
-                    _taskCubit.endTime.isNotEmpty) {
+                    taskCubit.startTime.isNotEmpty &&
+                    taskCubit.endTime.isNotEmpty) {
                   Navigator.pushNamed(context, Routes.viewBoard);
                   TaskCubit.get(context).addTaskToDatabase(Task(
                       title: _titleController.text,
-                      date: _taskCubit.date.toString(),
-                      start: _taskCubit.startTime,
-                      end: _taskCubit.endTime,
-                      reminder: _taskCubit.actualNeededTimeForRepeating,
+                      date: taskCubit.date.toString(),
+                      start: taskCubit.startTime,
+                      end: taskCubit.endTime,
+                      reminder: taskCubit.actualNeededTimeForRepeating,
                       favourite: 0,
                       completed: 0,
                       id: 0));

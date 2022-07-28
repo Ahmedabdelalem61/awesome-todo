@@ -6,7 +6,7 @@ class LocalDatabase {
   static const String _tableName = 'tasks';
   static Future<void> initDataBase() async {
     var databasesPath = await getDatabasesPath();
-    String path = databasesPath + 'tasks.db';
+    String path = '${databasesPath}tasks.db';
     if (_database != null) {
       return;
     } else {
@@ -43,7 +43,7 @@ class LocalDatabase {
     return await _database?.update(_tableName,newValues,where:'id=?',whereArgs: [task.id])??0;
   }
 
- static Future<List<Map<String, dynamic?>>?> getData()async{
+ static Future<List<Map<String, dynamic>>?> getData()async{
     return await _database?.query(_tableName);
   }
 }

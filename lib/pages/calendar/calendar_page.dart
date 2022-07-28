@@ -8,7 +8,7 @@ import 'package:todo/pages/task%20cubit/task_states.dart';
 
 
 class CalendarPage extends StatefulWidget {
-  CalendarPage({Key? key}) : super(key: key);
+  const CalendarPage({Key? key}) : super(key: key);
 
   @override
   State<CalendarPage> createState() => _CalendarPageState();

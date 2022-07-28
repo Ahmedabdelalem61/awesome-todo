@@ -10,6 +10,7 @@ class Routes {
   static const String viewBoard = '/';
   static const String calendar = 'calendar';
   static const String addTask = 'addTask';
+  static const String notificationPage = 'notificationPage';
 }
 
 class RouteGenerator {
@@ -29,7 +30,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (context) => 
              BlocProvider.value(
-                value: taskCubit..getTasksFromDateBase()..getTasksForPickedDay(), child:  CalendarPage()));
+                value: taskCubit..getTasksFromDateBase()..getTasksForPickedDay(), child:  const CalendarPage()));
     }
     return MaterialPageRoute(
         builder: (context) => const Scaffold(
