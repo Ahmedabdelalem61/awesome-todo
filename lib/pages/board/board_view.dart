@@ -25,6 +25,7 @@ class BoardView extends StatelessWidget {
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              centerTitle: false,
               elevation: 0,
               title: Text(
                 'Board',
